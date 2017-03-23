@@ -1,4 +1,6 @@
-﻿namespace Resistance.Domain
+﻿using System;
+
+namespace Resistance.Domain
 {
     public class Player
     {
@@ -6,9 +8,20 @@
         
         internal Group Group { get; set; }
 
-        public Player(string name)
+        internal Player(string name)
         {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException(nameof(name));
             Name = name;
+        }
+
+        public override bool Equals(object that)
+        {
+            return that != null && this.GetType() == that.GetType() && this.Name == ((Player)that).Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -1,40 +1,73 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Resistance.Domain.Exceptions;
+using System;
 
 namespace Resistance.Domain.Tests
 {
     [TestClass]
-    public class GameTests
+    public class GameConstructorTests
     {
-        [TestMethod]
-        public void GameTest()
+        private struct Numbers
         {
-            var numberOfPlayers = 9;
-            var numberOfResistanceMembers = 6;
-            var numberOfSpies = 3;
+            public int NumberOfResistanceMembers;
+            public int NumberOfSpies;
 
-            var players = new List<Player>()
+            public Numbers(int numberOfResistanceMembers, int numberOfSpies)
             {
-                new Player("Player0"),
-                new Player("Player1"),
-                new Player("Player2"),
-                new Player("Player3"),
-                new Player("Player4"),
-                new Player("Player5"),
-                new Player("Player6"),
-                new Player("Player7"),
-                new Player("Player8"),
-                //new Player("Player9")
-            };
-            var game = new Game(players);
+                this.NumberOfResistanceMembers = numberOfResistanceMembers;
+                this.NumberOfSpies = numberOfSpies;
+            }
+        }
 
-            Assert.AreEqual(numberOfPlayers, game.NumberOfPlayers);
-            Assert.AreEqual(numberOfResistanceMembers, game.NumberOfResistanceMembers);
-            Assert.AreEqual(numberOfResistanceMembers, game.Resistance.Count());
-            Assert.AreEqual(numberOfSpies, game.NumberOfSpies);
-            Assert.AreEqual(numberOfSpies, game.Spies.Count());
+        [TestMethod]
+        public void GameHasCorrectNumberOfResistanceMembersAndSpiesTest()
+        {
+            var scenarios = new Dictionary<int, Numbers>()
+            {
+                { 5, new Numbers(3, 2) },
+                { 6, new Numbers(4, 2) },
+                { 7, new Numbers(4, 3) },
+                { 8, new Numbers(5, 3) },
+                { 9, new Numbers(6, 3) },
+                { 10, new Numbers(6, 4) }
+            };
+
+            GameCreator.NewGame();
+
+            foreach (var numberOfPlayers in Enumerable.Range(1, 10))
+            {
+                GameCreator.AddPlayer("Player" + numberOfPlayers);
+
+                if (numberOfPlayers < 5) continue;
+
+                var game = GameCreator.Create();
+
+                Assert.AreEqual(numberOfPlayers, game.NumberOfPlayers);
+                Assert.AreEqual(scenarios[numberOfPlayers].NumberOfResistanceMembers, game.NumberOfResistanceMembers);
+                Assert.AreEqual(scenarios[numberOfPlayers].NumberOfResistanceMembers, game.Resistance.Count());
+                Assert.AreEqual(scenarios[numberOfPlayers].NumberOfSpies, game.NumberOfSpies);
+                Assert.AreEqual(scenarios[numberOfPlayers].NumberOfSpies, game.Spies.Count());
+            }
+        }
+
+        [TestMethod]
+        public void GameMaintainsPlayerOrderTest()
+        {
+            GameCreator.NewGame();
+
+            foreach (int numberOfPlayers in Enumerable.Range(0, 10))
+            {
+                GameCreator.AddPlayer("Player" + numberOfPlayers);
+            }
+
+            var game = GameCreator.Create();
+
+            foreach (int numberOfPlayers in Enumerable.Range(0, 10))
+            {
+                Assert.AreEqual("Player" + numberOfPlayers, game.AllPlayers[numberOfPlayers].Name);
+            }
         }
     }
 }

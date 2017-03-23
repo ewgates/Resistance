@@ -2,7 +2,7 @@
 {
     public class Spy : Player
     {
-        public Spy(Player player) : base(player.Name)
+        internal Spy(Player player) : base(player.Name)
         {
         }
     }

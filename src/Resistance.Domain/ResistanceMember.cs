@@ -2,7 +2,7 @@
 {
     public class ResistanceMember : Player
     {
-        public ResistanceMember(Player player) : base(player.Name)
+        internal ResistanceMember(Player player) : base(player.Name)
         {
         }
     }

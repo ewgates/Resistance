@@ -14,7 +14,7 @@ namespace Resistance.Domain
         public int NumberOfResistanceMembers { get; }
         public MissionLeader MissionLeader { get; }
 
-        public Game(List<Player> players)
+        internal Game(List<Player> players)
         {
             AllPlayers = players;
 
