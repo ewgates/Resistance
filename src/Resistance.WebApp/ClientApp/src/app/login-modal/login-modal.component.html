@@ -1,0 +1,17 @@
+﻿<div class="mat-app-dialog">
+  <div fxLayout="row">
+    <md-input-container>
+      <input mdInput id="resistance-username" type="text" placeholder="Username" [(ngModel)]="user.username" />
+    </md-input-container>
+  </div>
+  <div fxLayout="row">
+    <md-input-container>
+      <input mdInput id="resistance-password" type="password" placeholder="Password" [(ngModel)]="user.password" />
+    </md-input-container>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <button md-button color="primary" (click)="login()">
+      Log In
+    </button>
+  </div>
+</div>

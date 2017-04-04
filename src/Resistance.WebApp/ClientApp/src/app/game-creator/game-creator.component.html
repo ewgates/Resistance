@@ -1,0 +1,15 @@
+﻿<div *ngIf="creatingGame">
+  <md-input-container>
+    <input mdInput #newPlayer type="text" />
+  </md-input-container>
+  <button md-icon-button (click)="addPlayer(newPlayer.value)">+</button>
+</div>
+<div>
+  <ul>
+    <li *ngFor="let player of players">
+      <button md-icon-button (click)="removePlayer(player)" *ngIf="creatingGame">-</button>
+      {{player}}
+    </li>
+  </ul>
+  <button md-button (click)="createGame()">Start</button>
+</div>

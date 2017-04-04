@@ -1,0 +1,24 @@
+﻿<main class="mat-app-background" fxFlexFill fxLayoutAlign="center center">
+  <button md-button color="accent" (click)="auth.promptLogin()" *ngIf="!auth.authenticated()">ENTER</button>
+  <md-toolbar color="primary">
+    <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+      <button md-button style="font-size: 1.5em">Application</button>
+    </div>
+    <div fxFlex fxLayout="row" fxLayoutAlign="end center" *ngIf="auth.authenticated()">
+      <button md-button *ngIf="auth.userProfile && auth.userProfile.picture">
+        <img md-card-avatar [src]="auth.userProfile.picture" />
+      </button>
+      <div *ngIf="auth.authenticated()">
+        <button md-icon-button [mdMenuTriggerFor]="userMenu">
+          <md-icon>more_vert</md-icon>
+        </button>
+        <md-menu #userMenu>
+          <button md-menu-item (click)="auth.logout()">
+            <md-icon>exit_to_app</md-icon>
+            <span>Logout</span>
+          </button>
+        </md-menu>
+      </div>
+    </div>
+  </md-toolbar>
+</main>
